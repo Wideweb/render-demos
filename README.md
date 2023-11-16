@@ -25,6 +25,8 @@ build steps:
 
 run: GameApp.exe
 
+<br>
+
 ## Cascade Shadows
 ![cascade-demo-1](https://github.com/Wideweb/render-demos/assets/3997537/a95becdf-d8a2-461f-a0ec-2727f464c8c6)
 
@@ -32,15 +34,22 @@ Blending between cascade layers
 
 ![cascade-blending](https://github.com/Wideweb/render-demos/assets/3997537/93ca9536-2f95-42f4-b3f1-74a86e3302b9)
 
+<br>
+
 ## Frustrum Culling with binary space partitioning
 There are 5000 objects on the game stage.
+
 https://github.com/Wideweb/render-demos/assets/3997537/f764f849-2a01-4b76-9695-27ad86d61898
+
+<br>
 
 ## Frustrum Culling on GPU
 
 There are 6400 objects on the game stage.
 
 https://github.com/Wideweb/render-demos/assets/3997537/a1b119b9-1407-4ca8-82f3-a70b5517dc88
+
+<br>
 
 ## Geometry Particles
 
@@ -49,6 +58,8 @@ https://github.com/Wideweb/render-demos/assets/3997537/46abb899-8418-4267-9f25-d
 Each particle moves along its own plane, which cuts the model.
 
 ![geometry-particle-plane](https://github.com/Wideweb/render-demos/assets/3997537/86d27f52-702d-467e-b62d-be66e6fc68db)
+
+<br>
 
 ## Generate Skybox and Fog with Noise
 
