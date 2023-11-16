@@ -4,8 +4,8 @@ Demos can be run on Windows with DirectX 12.
 
 * [Building](#building)
 * [Cascade Shadows](#cascade-shadows)
-* [Frustrum Culling with binary space partitioning](#frustrum-culling-with-binary-space-partitioning)
-* [Frustrum Culling on GPU](#frustrum-culling-on-gpu)
+* [Frustum Culling with binary space partitioning](#frustum-culling-with-binary-space-partitioning)
+* [Frustum Culling on GPU](#frustum-culling-on-gpu)
 * [Geometry Particles](#geometry-particles)
 * [Generate Skybox and Fog with Noise](#generate-skybox-and-fog-with-noise)
 
@@ -36,14 +36,14 @@ Blending between cascade layers
 
 <br>
 
-## Frustrum Culling with binary space partitioning
+## Frustum Culling with binary space partitioning
 There are 5000 objects on the game stage.
 
 https://github.com/Wideweb/render-demos/assets/3997537/f764f849-2a01-4b76-9695-27ad86d61898
 
 <br>
 
-## Frustrum Culling on GPU
+## Frustum Culling on GPU
 
 There are 6400 objects on the game stage.
 
