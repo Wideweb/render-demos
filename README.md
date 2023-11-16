@@ -1,8 +1,17 @@
+# Demos
+* [Building](#building)
+* [Cascade Shadows](#cascade-shadows)
+* [Frustrum Culling with binary space partitioning](#frustrum-culling-with-binary-space-partitioning)
+* [Frustrum Culling on GPU](#frustrum-culling-on-gpu)
+* [Geometry Particles](#geometry-particles)
+* [Textured Skybox](textured-skybox)
+* [Generate Skybox and Fog with Noise](#generate-skybox-and-fog-with-noise)
+
 ## Building
 
 The following set of tools is required:
 - gcc
-- vcpkg (replace <i>D:/vcpkg/scripts/buildsystems/vcpkg.cmake</i> with your path in render-demos/engine/CMakeLists.txt)
+- vcpkg (replace *D:/vcpkg/scripts/buildsystems/vcpkg.cmake* with your path in *render-demos/engine/CMakeLists.txt*)
 - cmake
 
 build steps:
@@ -13,3 +22,15 @@ build steps:
 - cmake --build .
 
 run: GameApp.exe
+
+## Cascade Shadows
+
+## Frustrum Culling with binary space partitioning
+
+## Frustrum Culling on GPU
+
+## Geometry Particles
+
+## Textured Skybox
+
+## Generate Skybox and Fog with Noise
