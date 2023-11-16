@@ -1,4 +1,7 @@
 # Demos
+
+Demos can be run on Windows with DirectX 12.
+
 * [Building](#building)
 * [Cascade Shadows](#cascade-shadows)
 * [Frustrum Culling with binary space partitioning](#frustrum-culling-with-binary-space-partitioning)
