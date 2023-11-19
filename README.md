@@ -67,7 +67,8 @@ Each particle moves along its own plane, which cuts the model.
 ![sky-fbm](https://github.com/Wideweb/render-demos/assets/3997537/eda231d8-0cf2-4735-847a-06b6f08e3ea8)
 
 ### Turbulence
-![sky-turbulence](https://github.com/Wideweb/render-demos/assets/3997537/1094f9ce-f728-4e4e-9ea1-d4f77938eaa1)
+![turbulance](https://github.com/Wideweb/render-demos/assets/3997537/60b1de52-fa2a-435b-983c-3e23a8052ed1)
+
 
 ### Ridget
 ![sky-ridget](https://github.com/Wideweb/render-demos/assets/3997537/1d8c3f85-b1bf-4bc6-8c4f-30792f840e1b)
