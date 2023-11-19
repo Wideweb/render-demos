@@ -71,4 +71,5 @@ Each particle moves along its own plane, which cuts the model.
 
 
 ### Ridget
-![sky-ridget](https://github.com/Wideweb/render-demos/assets/3997537/1d8c3f85-b1bf-4bc6-8c4f-30792f840e1b)
+![ridget-0](https://github.com/Wideweb/render-demos/assets/3997537/da9da515-a3f6-42af-a79f-48ccba3d7f9d)
+
