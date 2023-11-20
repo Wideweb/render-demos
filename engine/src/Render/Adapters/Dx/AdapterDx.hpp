@@ -64,6 +64,8 @@ DXGI_FORMAT getDxTextureFormat(CROSS_PLATFROM_TEXTURE_FORMATS format) {
     switch (format) {
         case CROSS_PLATFROM_TEXTURE_FORMATS::RGBA8:
             return DXGI_FORMAT_R8G8B8A8_UNORM;
+        case CROSS_PLATFROM_TEXTURE_FORMATS::R32G32:
+            return DXGI_FORMAT_R32G32_FLOAT;
         case CROSS_PLATFROM_TEXTURE_FORMATS::D24S8:
             return DXGI_FORMAT_D24_UNORM_S8_UINT;
         default:
@@ -195,14 +197,19 @@ public:
         m_NativeCP->setDataSlot(index, bufferWrapper->getNative());
     }
 
-    void setDataArraySlot(size_t index, std::shared_ptr<CrossPlatformShaderProgramDataBuffer> buffer) {
+    void setDataArraySlot(size_t index, std::shared_ptr<CrossPlatformShaderProgramDataBuffer> buffer) override {
         auto bufferWrapper = std::static_pointer_cast<DxShaderProgramDataBufferWrapper>(buffer);
         m_NativeCP->setDataArraySlot(index, bufferWrapper->getNative());
     }
 
-    void setReadWriteDataSlot(size_t index, std::shared_ptr<CrossPlatformReadWriteDataBuffer> buffer) {
+    void setReadWriteDataSlot(size_t index, std::shared_ptr<CrossPlatformReadWriteDataBuffer> buffer) override {
         auto bufferWrapper = std::static_pointer_cast<DxReadWriteDataBufferWrapper>(buffer);
         m_NativeCP->setReadWriteDataSlot(index, bufferWrapper->getNative());
+    }
+
+    void setReadWriteTextureSlot(size_t index, std::shared_ptr<CrossPlatformRenderTexture> texture) override {
+        auto textureWrapper = std::static_pointer_cast<DxRenderTextureWrapper>(texture);
+        m_NativeCP->setReadWriteTextureSlot(index, textureWrapper->getNative());
     }
 
     void setTextureSlot(size_t index, std::shared_ptr<CrossPlatformTexture> texture) override {

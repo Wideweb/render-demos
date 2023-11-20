@@ -8,7 +8,7 @@
 
 #include "AABB.hpp"
 
-constexpr size_t c_GridNodes = 65535;
+constexpr size_t c_GridNodes = 1048575;
 
 template <typename T>
 struct CollisionShape {

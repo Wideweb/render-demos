@@ -30,7 +30,8 @@ DxComputeProgram::DxComputeProgram(
     std::vector<CD3DX12_DESCRIPTOR_RANGE> texTables;
     texTables.reserve(100);
 
-    size_t uavNum = 0;
+    std::vector<CD3DX12_DESCRIPTOR_RANGE> uavTables;
+    uavTables.reserve(100);
 
     for (size_t i = 0; i < slots.size(); i++) {
         slotRootParameters[i].InitAsConstantBufferView(i);
@@ -43,7 +44,18 @@ DxComputeProgram::DxComputeProgram(
             texTables.emplace_back();
             slotRootParameters[i].InitAsShaderResourceView(texTables.size() - 1);
         } else if (slot.type == SHADER_PROGRAM_SLOT_TYPE::READ_WRITE_DATA) {
-            slotRootParameters[i].InitAsUnorderedAccessView(uavNum++);
+            uavTables.emplace_back();
+            slotRootParameters[i].InitAsUnorderedAccessView(uavTables.size() - 1);
+        } else if (slot.type == SHADER_PROGRAM_SLOT_TYPE::READ_WRITE_TEXTURE) {
+            uavTables.emplace_back();
+            uavTables[uavTables.size() - 1].Init(
+                D3D12_DESCRIPTOR_RANGE_TYPE_UAV,
+                1,                     // Number of descriptors in table
+                uavTables.size() - 1,  // base shader register arguments are bound to for this root parameter
+                0,                     // register space
+                D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND  // offset from start of table
+            );
+            slotRootParameters[i].InitAsDescriptorTable(1, &uavTables[uavTables.size() - 1]);
         } else if (slot.type == SHADER_PROGRAM_SLOT_TYPE::TEXTURE) {
             texTables.emplace_back();
             texTables[texTables.size() - 1].Init(
@@ -54,9 +66,7 @@ DxComputeProgram::DxComputeProgram(
                 D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND  // offset from start of table
             );
 
-            slotRootParameters[i].InitAsDescriptorTable(
-                1, &texTables[texTables.size() - 1], D3D12_SHADER_VISIBILITY_PIXEL
-            );
+            slotRootParameters[i].InitAsDescriptorTable(1, &texTables[texTables.size() - 1]);
         } else if (slot.type == SHADER_PROGRAM_SLOT_TYPE::TEXTURE_ARRAY_4) {
             texTables.emplace_back();
             texTables[texTables.size() - 1].Init(
@@ -67,9 +77,7 @@ DxComputeProgram::DxComputeProgram(
                 D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND  // offset from start of table
             );
 
-            slotRootParameters[i].InitAsDescriptorTable(
-                1, &texTables[texTables.size() - 1], D3D12_SHADER_VISIBILITY_PIXEL
-            );
+            slotRootParameters[i].InitAsDescriptorTable(1, &texTables[texTables.size() - 1]);
         }
     }
 
@@ -113,6 +121,11 @@ void DxComputeProgram::setDataArraySlot(size_t index, std::shared_ptr<DxShaderPr
 void DxComputeProgram::setReadWriteDataSlot(size_t index, std::shared_ptr<DxReadWriteDataBuffer> buffer) {
     m_Resources[index] = std::static_pointer_cast<DxResource>(buffer);
     m_CommandList->SetComputeRootUnorderedAccessView(index, buffer->resource()->GetGPUVirtualAddress());
+}
+
+void DxComputeProgram::setReadWriteTextureSlot(size_t index, std::shared_ptr<DxRenderTexture> renderTexture) {
+    m_Resources[index] = std::static_pointer_cast<DxResource>(renderTexture);
+    m_CommandList->SetComputeRootDescriptorTable(index, renderTexture->getUavDescriptor().gpu);
 }
 
 void DxComputeProgram::setTextureSlot(size_t index, std::shared_ptr<DxTexture> texture) {

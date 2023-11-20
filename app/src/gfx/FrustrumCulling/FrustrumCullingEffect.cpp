@@ -81,7 +81,7 @@ void FrustrumCullingEffect::draw(std::shared_ptr<Engine::CrossPlatformShaderProg
     auto& render = app.getRender();
     auto& time   = app.getTime();
 
-    Frustrum::getInWorldSpace(camera, m_FrustrumVertices, 0.5f);
+    Frustrum::getInWorldSpace(camera, m_FrustrumVertices, 0.3f);
     std::vector<CollisionShape<size_t>> visible = m_Grid->findNeighbors(m_FrustrumVertices);
 
     ////////////////////////////////////////////////////////////////////////////

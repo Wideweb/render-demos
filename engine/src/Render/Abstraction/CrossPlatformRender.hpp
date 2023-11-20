@@ -31,7 +31,7 @@ enum DEPTH_FUNC {
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// TEXTURE FORMAT //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-enum class CROSS_PLATFROM_TEXTURE_FORMATS { RGBA8 = 1, D24S8 = 2 };
+enum class CROSS_PLATFROM_TEXTURE_FORMATS { RGBA8 = 1, D24S8 = 2, R32G32 = 3 };
 
 ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TEXTURE //////////////////////////////////
@@ -93,6 +93,7 @@ public:
     virtual void setDataSlot(size_t index, std::shared_ptr<CrossPlatformShaderProgramDataBuffer> buffer)      = 0;
     virtual void setDataArraySlot(size_t index, std::shared_ptr<CrossPlatformShaderProgramDataBuffer> buffer) = 0;
     virtual void setReadWriteDataSlot(size_t index, std::shared_ptr<CrossPlatformReadWriteDataBuffer> buffer) = 0;
+    virtual void setReadWriteTextureSlot(size_t index, std::shared_ptr<CrossPlatformRenderTexture> texture)   = 0;
     virtual void setTextureSlot(size_t index, std::shared_ptr<CrossPlatformTexture> texture)                  = 0;
     virtual void setTextureSlot(size_t index, std::shared_ptr<CrossPlatformRenderTexture> texture)            = 0;
     virtual void setTextureSlot(size_t index, std::shared_ptr<CrossPlatformDepthStencilTexture> texture)      = 0;

@@ -244,6 +244,9 @@ void DxRender::beginFrame() {
 }
 
 void DxRender::endFrame() {
+    std::cout << "Draw Calls Per Frame: " << m_DrawCalls << std::endl;
+    m_DrawCalls = 0;
+
     // Indicate a state transition on the resource usage.
     auto toPresentBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
         currentBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
@@ -465,11 +468,10 @@ void DxRender::drawItem(const std::string& geometry, const std::string& subGeome
     m_CommandList->DrawIndexedInstanced(
         indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation
     );
+    m_DrawCalls++;
 }
 
-void DxRender::compute(size_t x, size_t y, size_t z) {
-    m_CommandList->Dispatch(x, y, z);
-}
+void DxRender::compute(size_t x, size_t y, size_t z) { m_CommandList->Dispatch(x, y, z); }
 
 ID3D12Resource* DxRender::currentBackBuffer() const { return m_SwapChainBuffers[m_CurrBackBuffer]->getResource(); }
 

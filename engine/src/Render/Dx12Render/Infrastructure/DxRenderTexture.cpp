@@ -89,7 +89,7 @@ void DxRenderTexture::resize(size_t width, size_t height) {
     desc.SampleDesc.Count   = 1;
     desc.SampleDesc.Quality = 0;
     desc.Layout             = D3D12_TEXTURE_LAYOUT_UNKNOWN;
-    desc.Flags              = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+    desc.Flags              = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET | D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
     D3D12_CLEAR_VALUE clearValue = {m_Format, {}};
     memcpy(clearValue.Color, m_ClearColor, sizeof(clearValue.Color));

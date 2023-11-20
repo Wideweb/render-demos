@@ -11,6 +11,7 @@
 #include "SkyboxNoiseEffect.hpp"
 #include "FrustrumCullingEffect.hpp"
 #include "FrustrumCullingGPUEffect.hpp"
+#include "MotionBlurEffect.hpp"
 
 class AppLayer : public Engine::Layer {
 public:

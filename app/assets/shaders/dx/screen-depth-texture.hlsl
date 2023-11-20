@@ -35,5 +35,5 @@ VertexOut VS(VertexIn vin)
 
 float4 PS(VertexOut pin) : SV_Target
 {
-    return diffuseMap.Sample(gsamLinearWrap, pin.TexCoord);
+    return float4(diffuseMap.Sample(gsamLinearWrap, pin.TexCoord).rrr, 1.0);
 }

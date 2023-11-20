@@ -22,6 +22,7 @@ public:
     void setDataSlot(size_t index, std::shared_ptr<DxShaderProgramDataBuffer> buffer);
     void setDataArraySlot(size_t index, std::shared_ptr<DxShaderProgramDataBuffer> buffer);
     void setReadWriteDataSlot(size_t index, std::shared_ptr<DxReadWriteDataBuffer> buffer);
+    void setReadWriteTextureSlot(size_t index, std::shared_ptr<DxRenderTexture> renderTexture);
     void setTextureSlot(size_t index, std::shared_ptr<DxTexture> renderTexture);
     void setTextureSlot(size_t index, std::shared_ptr<DxRenderTexture> renderTexture);
     void setTextureSlot(size_t index, std::shared_ptr<DxDepthStencilTexture> renderTexture);

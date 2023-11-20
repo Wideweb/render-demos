@@ -76,6 +76,8 @@ private:
     ID3D12Resource*             currentBackBuffer() const;
     D3D12_CPU_DESCRIPTOR_HANDLE currentBackBufferView() const;
 
+    size_t m_DrawCalls = 0;
+
 public:
     DxRender(void* window, uint32_t width, uint32_t height);
 

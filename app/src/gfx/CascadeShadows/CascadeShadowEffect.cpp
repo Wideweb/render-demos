@@ -83,7 +83,7 @@ void CascadeShadowEffect::initDebugPass() {
         {"diffuseMap", Engine::SHADER_PROGRAM_SLOT_TYPE::TEXTURE},
     };
     m_ScreenTextureShader = render.createShaderProgram(
-        "./../assets/shaders/dx/screen-texture.hlsl", "./../assets/shaders/dx/screen-texture.hlsl", slots
+        "./../assets/shaders/dx/screen-depth-texture.hlsl", "./../assets/shaders/dx/screen-depth-texture.hlsl", slots
     );
 
     Engine::CrossPlatformRenderPass::PipelineDesc pipelineDesc;
@@ -134,7 +134,7 @@ void CascadeShadowEffect::initInstances() {
         float uv_x = x * 5.0f / m_InstancesRenderData.size();
 
         glm::mat4 model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
-        model           = glm::translate(glm::mat4(1.0f), glm::vec3(x * 5.0f, 0.0f, z * 5.0f)) * model;
+        model           = glm::translate(glm::mat4(1.0f), glm::vec3(x * 5.0f, 1.0f, z * 5.0f)) * model;
 
         RenderItemData itemData;
         itemData.model = glm::transpose(model);

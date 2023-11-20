@@ -12,8 +12,6 @@ GeometryParticle::GeometryParticle(Geometry& geometry)
 void GeometryParticle::setUp() {
     Engine::Mesh& mesh = m_Geometry.mesh;
 
-    Engine::Math::srand();
-
     m_TriangleIndex = Engine::Math::rand(mesh.vertices.size() / 3 - 1);
 
     int index0 = m_TriangleIndex * 3;

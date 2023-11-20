@@ -20,8 +20,9 @@ void SkyboxNoiseEffect::bind() {
         {"cbObject", Engine::SHADER_PROGRAM_SLOT_TYPE::DATA   },
         {"cubeMap",  Engine::SHADER_PROGRAM_SLOT_TYPE::TEXTURE},
     };
-    m_SkyboxShader =
-        render.createShaderProgram("./../assets/shaders/dx/skybox-noise.hlsl", "./../assets/shaders/dx/skybox-noise.hlsl", slots);
+    m_SkyboxShader = render.createShaderProgram(
+        "./../assets/shaders/dx/skybox-noise.hlsl", "./../assets/shaders/dx/skybox-noise.hlsl", slots
+    );
 
     Engine::CrossPlatformRenderPass::PipelineDesc pipelineDesc;
     pipelineDesc.cullMode        = Engine::CULL_MODE::NONE;
@@ -43,6 +44,10 @@ void SkyboxNoiseEffect::draw(std::shared_ptr<Engine::CrossPlatformShaderProgramD
 
     RenderItemData skyboxData;
     skyboxData.model = glm::mat4(1.0f);
+    // skyboxData.model = glm::scale(glm::mat4(1.0f), glm::vec3(5.0f)) * skyboxData.model;
+    // skyboxData.model =
+    //     glm::rotate(glm::mat4(1.0f), static_cast<float>(time.getTotalSeconds()) * 10.0f, glm::vec3(0.0f, 1.0f, 0.0f)) *
+    //     skyboxData.model;
     m_SkyboxRenderData->copyData(&skyboxData);
 
     render.setPass(m_SkyboxRenderPass);

@@ -107,8 +107,10 @@ void GeometryParticleEffect::initParticles() {
     m_ParticleMaterialRenderData   = render.createShaderProgramDataBuffer(sizeof(GfxEffect::RenderMaterialData));
     m_ParticleMaterialRenderData->copyData(&particleMaterial);
 
-    m_Particles.reserve(1);
-    for (size_t i = 0; i < 1; i++) {
+    Engine::Math::srand();
+
+    m_Particles.reserve(100);
+    for (size_t i = 0; i < 100; i++) {
         m_Particles.emplace_back(*m_Geometry);
         m_Particles[i].setUp();
         m_ParticlesRenderData.push_back(render.createShaderProgramDataBuffer(sizeof(RenderItemData)));
@@ -129,7 +131,7 @@ void GeometryParticleEffect::draw(std::shared_ptr<Engine::CrossPlatformShaderPro
 
     ////////////////////////////////////////////////////////////////////////////
     ///////////////////////////// UPDATE GPU DATA //////////////////////////////
-    glm::mat4 particleTransform = glm::scale(glm::mat4(1.0f), glm::vec3(0.05f, 0.05f, 0.05f));
+    glm::mat4 particleTransform = glm::scale(glm::mat4(1.0f), glm::vec3(0.02f, 0.02f, 0.02f));
 
     for (size_t i = 0; i < m_Particles.size(); i++) {
         RenderItemData itemData;
@@ -155,12 +157,12 @@ void GeometryParticleEffect::draw(std::shared_ptr<Engine::CrossPlatformShaderPro
     /////////////////////////////////// DRAW ///////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// DEBUG ///////////////////////////////////
-    render.setPass(m_DebugRenderPass);
+    // render.setPass(m_DebugRenderPass);
 
-    m_Shader->setDataSlot(0, commonData);
-    m_Shader->setDataSlot(2, m_DebugPlaneMaterialRenderData);
-    for (size_t i = 0; i < m_DebugPlanesRenderData.size(); i++) {
-        m_Shader->setDataSlot(1, m_DebugPlanesRenderData[i]);
-        render.drawItem("geometry-particles", "plane");
-    }
+    // m_Shader->setDataSlot(0, commonData);
+    // m_Shader->setDataSlot(2, m_DebugPlaneMaterialRenderData);
+    // for (size_t i = 0; i < m_DebugPlanesRenderData.size(); i++) {
+    //     m_Shader->setDataSlot(1, m_DebugPlanesRenderData[i]);
+    //     render.drawItem("geometry-particles", "plane");
+    // }
 }

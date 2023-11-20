@@ -15,6 +15,11 @@ public:
 #include <windows.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) {
+    AllocConsole();
+    freopen("CONIN$", "r", stdin);
+    freopen("CONOUT$", "w", stdout);
+    freopen("CONOUT$", "w", stderr);
+
     auto app = new App(static_cast<void*>(hInstance));
     app->run();
     delete app;
