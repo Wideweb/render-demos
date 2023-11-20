@@ -8,6 +8,7 @@ Demos can be run on Windows with DirectX 12.
 * [Frustum Culling on GPU](#frustum-culling-on-gpu)
 * [Geometry Particles](#geometry-particles)
 * [Generate Skybox and Fog with Noise](#generate-skybox-and-fog-with-noise)
+* [Motion Blur](#motion-blur)
 
 ## Building
 
@@ -72,4 +73,12 @@ Each particle moves along its own plane, which cuts the model.
 
 ### Ridget
 ![ridget-0](https://github.com/Wideweb/render-demos/assets/3997537/da9da515-a3f6-42af-a79f-48ccba3d7f9d)
+
+<br>
+
+## Motion Blur
+
+https://github.com/Wideweb/render-demos/assets/3997537/1e8c3d23-d048-46db-bc2a-825e1659a016
+
+
 
