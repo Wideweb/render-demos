@@ -31,7 +31,7 @@ enum DEPTH_FUNC {
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// TEXTURE FORMAT //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-enum class CROSS_PLATFROM_TEXTURE_FORMATS { RGBA8 = 1, D24S8 = 2, R32G32 = 3 };
+enum class CROSS_PLATFROM_TEXTURE_FORMATS { RGBA8 = 1, D24S8 = 2, R32G32 = 3, D32 = 4 };
 
 ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TEXTURE //////////////////////////////////
@@ -171,6 +171,10 @@ public:
 
     virtual std::shared_ptr<CrossPlatformDepthStencilTexture> createDepthStencilTexture(
         size_t width, size_t height
+    ) = 0;
+
+    virtual std::shared_ptr<CrossPlatformDepthStencilTexture> createDepthStencilTexture(
+        CROSS_PLATFROM_TEXTURE_FORMATS format, size_t width, size_t height
     ) = 0;
 
     virtual std::shared_ptr<CrossPlatformRenderTexture> createRenderTexture(

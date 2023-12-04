@@ -38,10 +38,16 @@ struct VertexIn
 
 struct VertexOut
 {
-    float3 PosW         : POSITION0;
-    float3 PosV         : POSITION1;
-    float4 PosH         : SV_POSITION;
-    float3 NormalW      : NORMAL;
+    float3 PosW      : POSITION0;
+    float3 PosV      : POSITION1;
+    float4 PosH      : SV_POSITION;
+    float3 NormalV   : NORMAL;
+};
+
+struct OutputData
+{
+    float4 Color  : SV_Target0;
+    float2 Normal : SV_Target1;
 };
 
 VertexOut VS(VertexIn vin)
@@ -56,25 +62,21 @@ VertexOut VS(VertexIn vin)
     vout.PosW = posW.xyz;
     vout.PosV = posV.xyz;
     vout.PosH = posH;
-    vout.NormalW = mul(vin.NormalL, (float3x3) model);
+
+    float3 normal = mul(vin.NormalL, (float3x3) model);
+    normal = mul(normal, (float3x3) view);
+
+    vout.NormalV = normal;
 	
     return vout;
 }
 
-float4 PS(VertexOut pin) : SV_Target
+OutputData PS(VertexOut pin) : SV_Target
 {
-    float3 normal = normalize(pin.NormalW);
+    OutputData output;
 
-    float3 toEye = normalize(viewPos - pin.PosW);
-    float4 ambient = ambientLight * diffuseAlbedo;
+    output.Color = diffuseAlbedo;
+    output.Normal = normalize(pin.NormalV).xy;
 
-    const float shininess = 1.0f - roughness;
-    Material mat = { diffuseAlbedo, fresnelR0, shininess };
-
-    float4 directLight = ComputeLighting(light, mat, pin.PosW, normal, toEye, 1.0f);
-
-    float4 litColor = ambient + directLight;
-    litColor.a = diffuseAlbedo.a;
-
-    return lerp(litColor, FOG_COLOR, FogFactor(pin.PosW, viewPos, time));
+    return output;
 }

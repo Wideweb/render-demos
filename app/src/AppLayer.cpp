@@ -25,7 +25,8 @@ void AppLayer::onAttach() {
     // m_Effects.push_back(std::make_shared<FrustrumCullingEffect>());
     // m_Effects.push_back(std::make_shared<FrustrumCullingGPU::Effect>());
     // m_Effects.push_back(std::make_shared<SkyboxNoiseEffect>());
-    m_Effects.push_back(std::make_shared<MotionBlur::Effect>());
+    // m_Effects.push_back(std::make_shared<MotionBlur::Effect>());
+    m_Effects.push_back(std::make_shared<DeferredRendering::Effect>());
 
     for (auto& effect : m_Effects) {
         effect->bind();
@@ -77,7 +78,9 @@ void AppLayer::onUpdate() {
     glm::mat4 lightView = glm::lookAt(lightDir, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
     m_CommonData.view            = glm::transpose(camera.viewMatrix());
+    m_CommonData.viewInv         = glm::transpose(glm::inverse(camera.viewMatrix()));
     m_CommonData.projection      = glm::transpose(camera.projectionMatrix());
+    m_CommonData.projectionInv   = glm::transpose(glm::inverse(camera.projectionMatrix()));
     m_CommonData.viewPos         = camera.positionVec();
     m_CommonData.ambientLight    = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
     m_CommonData.light.view      = lightView;

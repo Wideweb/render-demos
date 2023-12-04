@@ -18,6 +18,7 @@ set(SOURCE_EXE
     src/gfx/FrustrumCulling/FrustrumCullingEffect.cpp
     src/gfx/FrustrumCullingGPU/FrustrumCullingGPUEffect.cpp
     src/gfx/MotionBlur/MotionBlurEffect.cpp
+    src/gfx/DeferredRendering/DeferredRenderingEffect.cpp
 )
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCE_EXE})
@@ -32,6 +33,7 @@ set(INCLUDE_DIRS
     src/gfx/FrustrumCulling
     src/gfx/FrustrumCullingGPU
     src/gfx/MotionBlur
+    src/gfx/DeferredRendering
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})

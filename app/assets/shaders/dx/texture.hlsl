@@ -3,7 +3,9 @@
 cbuffer cbCommon : register(b0)
 {
     float4x4 view;
+    float4x4 viewInv;
     float4x4 projection;
+    float4x4 projectionInv;
     float3 viewPos;
     float time;
     float4 ambientLight;

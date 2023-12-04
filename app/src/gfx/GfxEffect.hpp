@@ -20,7 +20,9 @@ public:
 
     struct RenderCommonData {
         glm::mat4       view;
+        glm::mat4       viewInv;
         glm::mat4       projection;
+        glm::mat4       projectionInv;
         glm::vec3       viewPos;
         float           time;
         glm::vec4       ambientLight;

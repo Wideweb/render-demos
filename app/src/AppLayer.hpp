@@ -4,14 +4,15 @@
 #include <vector>
 
 #include "CascadeShadowEffect.hpp"
+#include "DeferredRenderingEffect.hpp"
 #include "Engine.hpp"
-#include "GeometryParticleEffect.hpp"
-#include "GfxEffect.hpp"
-#include "SkyboxEffect.hpp"
-#include "SkyboxNoiseEffect.hpp"
 #include "FrustrumCullingEffect.hpp"
 #include "FrustrumCullingGPUEffect.hpp"
+#include "GeometryParticleEffect.hpp"
+#include "GfxEffect.hpp"
 #include "MotionBlurEffect.hpp"
+#include "SkyboxEffect.hpp"
+#include "SkyboxNoiseEffect.hpp"
 
 class AppLayer : public Engine::Layer {
 public:

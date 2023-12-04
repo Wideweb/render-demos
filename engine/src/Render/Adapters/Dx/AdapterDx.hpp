@@ -68,6 +68,8 @@ DXGI_FORMAT getDxTextureFormat(CROSS_PLATFROM_TEXTURE_FORMATS format) {
             return DXGI_FORMAT_R32G32_FLOAT;
         case CROSS_PLATFROM_TEXTURE_FORMATS::D24S8:
             return DXGI_FORMAT_D24_UNORM_S8_UINT;
+        case CROSS_PLATFROM_TEXTURE_FORMATS::D32:
+            return DXGI_FORMAT_D32_FLOAT;
         default:
             throw std::invalid_argument("getDxTextureFormat: invalid internal format.");
     }
@@ -362,6 +364,11 @@ public:
 
     std::shared_ptr<CrossPlatformDepthStencilTexture> createDepthStencilTexture(size_t width, size_t height) override {
         auto nativeDSTexture = m_NativeRender->createDepthStencilTexture(DXGI_FORMAT_D24_UNORM_S8_UINT, width, height);
+        return std::make_shared<DxDepthStencilTextureWrapper>(nativeDSTexture);
+    }
+
+    std::shared_ptr<CrossPlatformDepthStencilTexture> createDepthStencilTexture(CROSS_PLATFROM_TEXTURE_FORMATS format, size_t width, size_t height) override {
+        auto nativeDSTexture = m_NativeRender->createDepthStencilTexture(getDxTextureFormat(format), width, height);
         return std::make_shared<DxDepthStencilTextureWrapper>(nativeDSTexture);
     }
 
