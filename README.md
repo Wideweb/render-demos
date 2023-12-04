@@ -9,6 +9,7 @@ Demos can be run on Windows with DirectX 12.
 * [Geometry Particles](#geometry-particles)
 * [Generate Skybox and Fog with Noise](#generate-skybox-and-fog-with-noise)
 * [Motion Blur](#motion-blur)
+* [Deferred Rendering](#deferred-rendering)
 
 ## Building
 
@@ -80,5 +81,18 @@ Each particle moves along its own plane, which cuts the model.
 
 https://github.com/Wideweb/render-demos/assets/3997537/1e8c3d23-d048-46db-bc2a-825e1659a016
 
+## Deferred Rendering
+
+### Normal Buffer
+![image](https://github.com/Wideweb/render-demos/assets/3997537/93057b08-3b71-48b1-a53c-70259f76920c)
+
+### Depth Buffer
+![image](https://github.com/Wideweb/render-demos/assets/3997537/de80d05a-889b-4563-a29a-5c39fc954f58)
+
+### Color Buffer
+![image](https://github.com/Wideweb/render-demos/assets/3997537/0fde15c9-d659-4c2d-84db-0f270ddc50df)
+
+### Light Pass
+![image](https://github.com/Wideweb/render-demos/assets/3997537/4636dc10-3795-4c08-a932-0738366b6137)
 
 
