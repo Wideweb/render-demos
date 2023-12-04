@@ -8,6 +8,8 @@ Demos can be run on Windows with DirectX 12.
 * [Frustum Culling on GPU](#frustum-culling-on-gpu)
 * [Geometry Particles](#geometry-particles)
 * [Generate Skybox and Fog with Noise](#generate-skybox-and-fog-with-noise)
+* [Motion Blur](#motion-blur)
+* [Deferred Rendering](#deferred-rendering)
 
 ## Building
 
@@ -72,4 +74,28 @@ Each particle moves along its own plane, which cuts the model.
 
 ### Ridget
 ![ridget-0](https://github.com/Wideweb/render-demos/assets/3997537/da9da515-a3f6-42af-a79f-48ccba3d7f9d)
+
+<br>
+
+## Motion Blur
+
+https://github.com/Wideweb/render-demos/assets/3997537/1e8c3d23-d048-46db-bc2a-825e1659a016
+
+## Deferred Rendering
+
+### Normal Buffer (R32G32, z value is restored from x and y)
+![image](https://github.com/Wideweb/render-demos/assets/3997537/93057b08-3b71-48b1-a53c-70259f76920c)
+
+### Depth Buffer (D32)
+![image](https://github.com/Wideweb/render-demos/assets/3997537/de80d05a-889b-4563-a29a-5c39fc954f58)
+
+### Color Buffer (RGBA8)
+![image](https://github.com/Wideweb/render-demos/assets/3997537/0fde15c9-d659-4c2d-84db-0f270ddc50df)
+
+### Fragment position restored from depth value
+![image](https://github.com/Wideweb/render-demos/assets/3997537/9e85d0db-a03d-40c9-9528-819204e41f3a)
+
+### Light Pass
+![image](https://github.com/Wideweb/render-demos/assets/3997537/4636dc10-3795-4c08-a932-0738366b6137)
+
 
