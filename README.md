@@ -15,15 +15,15 @@ Demos can be run on Windows with DirectX 12.
 
 The following set of tools is required:
 - gcc
-- vcpkg (replace *D:/vcpkg/scripts/buildsystems/vcpkg.cmake* with your path in *render-demos/engine/CMakeLists.txt*)
+- set environmet variable VCPKG_ROOT=\<your path to vcpkg\>
 - cmake
 
 build steps:
 - cd render-demos
 - mkdir build
 - cd build
-- cmake ..
-- cmake --build .
+- cmake .. --preset="x64-debug"
+- cmake --build x64-debug
 
 run: GameApp.exe
 

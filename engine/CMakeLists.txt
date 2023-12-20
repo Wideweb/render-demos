@@ -5,9 +5,9 @@ project(Engine VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-if (WIN32)
-set(CMAKE_TOOLCHAIN_FILE D:/vcpkg/scripts/buildsystems/vcpkg.cmake)
-endif (WIN32)
+#if (WIN32)
+#set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+#endif (WIN32)
 
 if (UNIX)
 set(ENV{CONAN_SYSREQUIRES_MODE} enabled)
@@ -136,8 +136,8 @@ if (WIN32)
       d3dcompiler.lib
   )
 
-  target_include_directories(${PROJECT_NAME} PRIVATE ${glm_INCLUDE_DIRS})
-  target_link_libraries(${PROJECT_NAME} PRIVATE ${glm_LIBRARIES})
+  find_package(glm CONFIG REQUIRED)
+  target_link_libraries(${PROJECT_NAME} PUBLIC glm::glm)
 
   target_include_directories(${PROJECT_NAME} PRIVATE ${assimp_INCLUDE_DIRS})
   target_link_libraries(${PROJECT_NAME} PRIVATE ${assimp_LIBRARIES})
