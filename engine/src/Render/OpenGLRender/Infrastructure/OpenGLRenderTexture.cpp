@@ -1,19 +1,26 @@
 #include <stdexcept>
 
-#include "RenderTexture.hpp"
+#include "OpenGLRenderTexture.hpp"
 
 namespace Engine {
 
 OpenGLRenderTexture::OpenGLRenderTexture(GLenum format, GLenum dataType, size_t width, size_t height) {
-    m_Format   = format;
-    m_DataType = dataType;
-    m_Width    = width;
-    m_Height   = height;
+    m_Format = format;
+    m_Width  = width;
+    m_Height = height;
+
+    if (m_Format == GL_RGBA8) {
+        m_DataFormat = GL_RGBA;
+        m_DataType   = GL_UNSIGNED_BYTE;
+    } else if (m_Format == GL_RG32F) {
+        m_DataFormat = GL_RG;
+        m_DataType   = GL_FLOAT;
+    }
 
     glGenTextures(1, &m_Resource);
     glBindTexture(GL_TEXTURE_2D, m_Resource);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, m_Format, m_Width, m_Height, 0, m_Format, m_DataType, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, m_Format, m_Width, m_Height, 0, m_DataFormat, m_DataType, NULL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

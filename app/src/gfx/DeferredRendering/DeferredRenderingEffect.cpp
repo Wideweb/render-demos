@@ -10,15 +10,19 @@ void Effect::bind() {
     auto& app    = Engine::Application::get();
     auto& render = app.getRender();
 
-    Engine::Mesh monkey = Engine::ModelLoader::loadObj("./../assets/models/monkey.obj");
-    Engine::Mesh plane  = ModelFactory::createPlane(2.0f, 1, 1);
-    Engine::Mesh box    = ModelFactory::createSphere(1.0f, 20, 20);
+    Engine::Mesh monkey     = Engine::ModelLoader::loadObj("./../assets/models/monkey.obj");
+    Engine::Mesh plane      = ModelFactory::createPlane(2.0f, 1, 1);
+    Engine::Mesh box        = ModelFactory::createSphere(1.0f, 20, 20);
+    Engine::Mesh haloVolume = ModelFactory::createCube(4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f);
 
-    render.registerGeometry("deferred-rendering", {"instance", "plane", "box"}, {monkey, plane, box});
+    render.registerGeometry(
+        "deferred-rendering", {"instance", "plane", "box", "halo-volume"}, {monkey, plane, box, haloVolume}
+    );
 
     initGDataPass();
     initPostProcessPass();
     initInstances();
+    initHaloPass();
 }
 
 void Effect::initGDataPass() {
@@ -89,7 +93,7 @@ void Effect::initInstances() {
     m_InstanceMaterialRenderData = render.createShaderProgramDataBuffer(sizeof(GfxEffect::RenderMaterialData));
 
     RenderItemData itemData;
-    itemData.model = glm::scale(glm::mat4(1.0f), glm::vec3(8.0f));
+    itemData.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
     itemData.model = glm::transpose(itemData.model);
     m_InstanceRenderData->copyData(&itemData);
 
@@ -98,6 +102,36 @@ void Effect::initInstances() {
     instanceMaterial.fresnelR0     = glm::vec3(0.01f);
     instanceMaterial.roughness     = 0.5f;
     m_InstanceMaterialRenderData->copyData(&instanceMaterial);
+}
+
+void Effect::initHaloPass() {
+    auto& app    = Engine::Application::get();
+    auto& render = app.getRender();
+
+    std::vector<Engine::ShaderProgramSlotDesc> slots = {
+        {"cbCommon",     Engine::SHADER_PROGRAM_SLOT_TYPE::DATA   },
+        {"cbObject",     Engine::SHADER_PROGRAM_SLOT_TYPE::DATA   },
+        {"colorBuffer",  Engine::SHADER_PROGRAM_SLOT_TYPE::TEXTURE},
+        {"normalBuffer", Engine::SHADER_PROGRAM_SLOT_TYPE::TEXTURE},
+        {"depthBuffer",  Engine::SHADER_PROGRAM_SLOT_TYPE::TEXTURE}
+    };
+    m_HaloShader = render.createShaderProgram(
+        "./../assets/shaders/dx/volume-halo.hlsl", "./../assets/shaders/dx/volume-halo.hlsl", slots
+    );
+
+    Engine::CrossPlatformRenderPass::PipelineDesc pipelineDesc;
+    pipelineDesc.cullMode        = Engine::CULL_MODE::FRONT;
+    pipelineDesc.depthClipEnable = false;
+    pipelineDesc.depthFunc       = Engine::DEPTH_FUNC::LESS;
+
+    m_HaloPass = render.createRenderPass(m_HaloShader, pipelineDesc);
+
+    m_HaloVolumeRenderData = render.createShaderProgramDataBuffer(sizeof(RenderItemData));
+
+    RenderItemData itemData;
+    itemData.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+    itemData.model = glm::transpose(itemData.model);
+    m_HaloVolumeRenderData->copyData(&itemData);
 }
 
 void Effect::update(GfxEffect::RenderCommonData& commonData) {}
@@ -110,6 +144,13 @@ void Effect::draw(std::shared_ptr<Engine::CrossPlatformShaderProgramDataBuffer> 
 
     uint32_t w, h;
     render.getViewport(w, h);
+
+    RenderItemData itemData;
+    itemData.model = glm::mat4(1.0f);
+    itemData.model = glm::translate(itemData.model, glm::vec3(0.0f, 0.0f, std::sin(time.getTotalSeconds() * 2) * 4.0));
+    itemData.model = glm::scale(itemData.model, glm::vec3(1.0f));
+    itemData.model = glm::transpose(itemData.model);
+    m_InstanceRenderData->copyData(&itemData);
 
     ////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////// PRE DRAW /////////////////////////////////
@@ -137,6 +178,18 @@ void Effect::draw(std::shared_ptr<Engine::CrossPlatformShaderProgramDataBuffer> 
     m_PostProcessShader->setTextureSlot(3, m_GDepthBuffer);
 
     render.drawItem("deferred-rendering", "plane");
+    //////////////////////////////// POSPROCESS ////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// HALO ///////////////////////////////////
+    render.setPass(m_HaloPass);
+
+    m_HaloShader->setDataSlot(0, commonData);
+    m_HaloShader->setDataSlot(1, m_HaloVolumeRenderData);
+    m_HaloShader->setTextureSlot(2, m_GColorBuffer);
+    m_HaloShader->setTextureSlot(3, m_GNormalBuffer);
+    m_HaloShader->setTextureSlot(4, m_GDepthBuffer);
+
+    render.drawItem("deferred-rendering", "halo-volume");
 }
 
 }  // namespace DeferredRendering

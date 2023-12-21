@@ -27,6 +27,7 @@ private:
     void initGDataPass();
     void initPostProcessPass();
     void initInstances();
+    void initHaloPass();
 
     std::shared_ptr<Engine::CrossPlatformShaderProgram> m_GDataShader;
     std::shared_ptr<Engine::CrossPlatformRenderPass>    m_GDataPass;
@@ -42,6 +43,10 @@ private:
     std::shared_ptr<Engine::CrossPlatformShaderProgram>           m_PostProcessShader;
     std::shared_ptr<Engine::CrossPlatformRenderPass>              m_PostProcessPass;
     std::shared_ptr<Engine::CrossPlatformShaderProgramDataBuffer> m_PostProcessData;
+
+    std::shared_ptr<Engine::CrossPlatformShaderProgram>           m_HaloShader;
+    std::shared_ptr<Engine::CrossPlatformRenderPass>              m_HaloPass;
+    std::shared_ptr<Engine::CrossPlatformShaderProgramDataBuffer> m_HaloVolumeRenderData;
 };
 
 }  // namespace DeferredRendering

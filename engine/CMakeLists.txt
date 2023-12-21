@@ -28,6 +28,7 @@ set(SOURCE_LIB
     src/Engine/Application.cpp
     src/Engine/Layer.cpp
     src/Engine/CameraController.cpp
+    vendor/glad/glad.c
 )
 
 set(INCLUDE_DIRS 

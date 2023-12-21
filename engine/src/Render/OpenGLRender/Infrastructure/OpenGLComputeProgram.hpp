@@ -1,5 +1,4 @@
 #pragma once
-
 #include <memory>
 #include <string>
 #include <vector>
@@ -9,20 +8,20 @@
 #include "OpenGLShaderProgramDataBuffer.hpp"
 #include "OpenGLUtils.hpp"
 #include "ShaderProgramSlot.hpp"
+#include "glad/glad.h"
 
 namespace Engine {
 
-class OpenGLShaderProgram {
+class OpenGLComputeProgram {
 public:
-    OpenGLShaderProgram(
-        const std::string& vertexFile, const std::string& pixelFile, const std::vector<ShaderProgramSlotDesc>& slots
-    ) noexcept;
+    OpenGLComputeProgram(const std::string& file, const std::vector<ShaderProgramSlotDesc>& slots) noexcept;
 
-    ~OpenGLShaderProgram();
+    ~OpenGLComputeProgram();
 
     void release();
 
     void setDataSlot(size_t index, std::shared_ptr<OpenGLShaderProgramDataBuffer> buffer);
+    void setReadWriteTextureSlot(size_t index, std::shared_ptr<OpenGLRenderTexture> renderTexture);
     void setTextureSlot(size_t index, std::shared_ptr<OpenGLRenderTexture> renderTexture);
     void setTextureSlot(size_t index, std::shared_ptr<OpenGLDepthStencilTexture> renderTexture);
 

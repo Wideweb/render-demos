@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OpenGLShaderProgram.hpp"
+#include "OpenGLComputeProgram.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -8,16 +8,11 @@
 
 namespace Engine {
 
-OpenGLShaderProgram::OpenGLShaderProgram(
-    const std::string& vertexFile, const std::string& pixelFile, const std::vector<ShaderProgramSlotDesc>& slots
+OpenGLComputeProgram::OpenGLComputeProgram(
+    const std::string& file, const std::vector<ShaderProgramSlotDesc>& slots
 ) noexcept {
-    GLuint vertexShader = OpenGLUtils::compileShader(vertexFile, GL_VERTEX_SHADER);
-    if (vertexShader == 0) {
-        return;
-    }
-
-    GLuint fragmentShader = OpenGLUtils::compileShader(pixelFile, GL_FRAGMENT_SHADER);
-    if (fragmentShader == 0) {
+    GLuint shader = OpenGLUtils::compileShader(file, GL_COMPUTE_SHADER);
+    if (shader == 0) {
         return;
     }
 
@@ -26,9 +21,7 @@ OpenGLShaderProgram::OpenGLShaderProgram(
         throw std::runtime_error("Failed to create gl program");
     }
 
-    glAttachShader(m_ProgramId, vertexShader);
-    glAttachShader(m_ProgramId, fragmentShader);
-
+    glAttachShader(m_ProgramId, shader);
     glLinkProgram(m_ProgramId);
 
     GLint linked_status = 0;
@@ -45,11 +38,8 @@ OpenGLShaderProgram::OpenGLShaderProgram(
         return;
     }
 
-    glDetachShader(m_ProgramId, vertexShader);
-    glDetachShader(m_ProgramId, fragmentShader);
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    glDetachShader(m_ProgramId, shader);
+    glDeleteShader(shader);
 
     GLint dataSlots    = 0;
     GLint textureSlots = 0;
@@ -68,30 +58,38 @@ OpenGLShaderProgram::OpenGLShaderProgram(
     }
 }
 
-OpenGLShaderProgram::~OpenGLShaderProgram() { release(); }
+OpenGLComputeProgram::~OpenGLComputeProgram() { release(); }
 
-void OpenGLShaderProgram::setDataSlot(size_t index, std::shared_ptr<OpenGLShaderProgramDataBuffer> buffer) {
+void OpenGLComputeProgram::setDataSlot(size_t index, std::shared_ptr<OpenGLShaderProgramDataBuffer> buffer) {
     glUniformBlockBinding(m_ProgramId, m_Slots[index].location, m_Slots[index].binding);
     glBindBufferBase(GL_UNIFORM_BUFFER, m_Slots[index].binding, buffer->getResource());
 }
 
-void OpenGLShaderProgram::setTextureSlot(size_t index, std::shared_ptr<OpenGLRenderTexture> renderTexture) {
+void OpenGLComputeProgram::setReadWriteDataSlot(size_t index, std::shared_ptr<DxReadWriteDataBuffer> buffer) {
+    m_CommandList->SetComputeRootUnorderedAccessView(index, buffer->resource()->GetGPUVirtualAddress());
+}
+
+void OpenGLComputeProgram::setReadWriteTextureSlot(size_t index, std::shared_ptr<OpenGLRenderTexture> renderTexture) {
+    glBindImageTexture(m_Slots[index].binding, renderTexture->getResource(), 0, GL_FALSE, 0, GL_READ_WRITE, renderTexture->getFormat());
+}
+
+void OpenGLComputeProgram::setTextureSlot(size_t index, std::shared_ptr<OpenGLRenderTexture> renderTexture) {
     glActiveTexture(GL_TEXTURE0 + m_Slots[index].binding);
     glBindTexture(GL_TEXTURE_2D, renderTexture->getResource());
     glUniform1i(m_Slots[index].location, m_Slots[index].binding);
 }
 
-void OpenGLShaderProgram::setTextureSlot(size_t index, std::shared_ptr<OpenGLDepthStencilTexture> dsTexture) {
+void OpenGLComputeProgram::setTextureSlot(size_t index, std::shared_ptr<OpenGLDepthStencilTexture> dsTexture) {
     glActiveTexture(GL_TEXTURE0 + m_Slots[index].binding);
     glBindTexture(GL_TEXTURE_2D, dsTexture->getResource());
     glUniform1i(m_Slots[index].location, m_Slots[index].binding);
 }
 
-void OpenGLShaderProgram::bind() const { glUseProgram(m_ProgramId); }
+void OpenGLComputeProgram::bind() const { glUseProgram(m_ProgramId); }
 
-void OpenGLShaderProgram::unbind() const { glUseProgram(0); }
+void OpenGLComputeProgram::unbind() const { glUseProgram(0); }
 
-void OpenGLShaderProgram::release() {
+void OpenGLComputeProgram::release() {
     if (m_ProgramId > 0) {
         glDeleteProgram(m_ProgramId);
         m_ProgramId = 0;

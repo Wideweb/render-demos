@@ -1,7 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include "OpenGLDepthStencilTexture.hpp"
-#include "OpenGLOpenGLRenderTexture.hpp"
+#include "OpenGLRenderTexture.hpp"
 #include "glad/glad.h"
 
 namespace Engine {

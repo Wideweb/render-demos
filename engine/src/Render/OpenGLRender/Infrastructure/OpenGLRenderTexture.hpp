@@ -37,6 +37,7 @@ private:
 
     GLenum m_Format;
     GLenum m_DataType;
+    GLenum m_DataFormat;
 
     size_t m_Width;
     size_t m_Height;

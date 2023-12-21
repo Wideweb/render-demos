@@ -15,8 +15,14 @@ unsigned int getOpenGLTextureFormat(CROSS_PLATFROM_TEXTURE_FORMATS format) {
     switch (format) {
         case CROSS_PLATFROM_TEXTURE_FORMATS::RGBA8:
             return GL_RGBA8;
+        case CROSS_PLATFROM_TEXTURE_FORMATS::R32G32:
+            return GL_RG32F;
+        case CROSS_PLATFROM_TEXTURE_FORMATS::D24S8:
+            return GL_DEPTH24_STENCIL8;
+        case CROSS_PLATFROM_TEXTURE_FORMATS::D32:
+            return GL_DEPTH_COMPONENT32F;
         default:
-            throw std::invalid_argument("GfxImage::getOpenGLTextureFormat: invalid internal format.");
+            throw std::invalid_argument("getDxTextureFormat: invalid internal format.");
     }
 }
 

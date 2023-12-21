@@ -6,24 +6,24 @@
 
 namespace Engine {
 
-OpenGLFramebuffer::OpenGLFramebuffer() m_RenderTo(false), m_Width(0), m_Height(0) { glGenFramebuffers(1, &m_Resource); }
+OpenGLFramebuffer::OpenGLFramebuffer() : m_RenderTo(false), m_Width(0), m_Height(0) { glGenFramebuffers(1, &m_Resource); }
 
 OpenGLFramebuffer::~OpenGLFramebuffer() { release(); }
 
 void OpenGLFramebuffer::addAttachment(std::shared_ptr<OpenGLRenderTexture> attachment) {
     bind();
 
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + m_Attachments.size(), attachment.getResource(), 0);
-    Gfx::checkError();
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + m_Attachments.size(), attachment->getResource(), 0);
+    OpenGLUtils::checkError();
 
     m_Attachments.push_back(attachment);
 
-    std::vector<size_t> drawAttachments;
+    std::vector<GLenum> drawAttachments;
     for (size_t index = 0; index < m_Attachments.size(); index++) {
         drawAttachments.push_back(GL_COLOR_ATTACHMENT0 + index);
     }
     glDrawBuffers(drawAttachments.size(), drawAttachments.data());
-    Gfx::checkError();
+    OpenGLUtils::checkError();
 
     unbind();
 }
@@ -32,8 +32,8 @@ void OpenGLFramebuffer::setDSAttachment(std::shared_ptr<OpenGLDepthStencilTextur
     bind();
 
     // glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, attachment.getResource());
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, attachment.getResource(), 0);
-    Gfx::checkError();
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, attachment->getResource(), 0);
+    OpenGLUtils::checkError();
 
     m_DSAttachment = attachment;
 
